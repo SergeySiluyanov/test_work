@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        td {
+            border:1px solid;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form" id="form">
+        <form name="write" id="form_block">
+            <label for="userName">
+                <span>ФИО</span>
+                <input type="text" value="" id="userName">
+            </label>
+
+            <label for="room">
+                <span>Номер столика</span>
+                <input type="number" value="" id="room">
+            </label>
+
+            <label for="date">
+                <span>Дата</span>
+                <input type="date" value="" id="date">
+            </label>
+
+            <button id="write" type="button">Заказать</button>
+        </form>
+    </div>
+
+    <div id="table_list" style="display: none;">
+        <table id="result">  </table>
+        <button type="button" id="btn1">Заказать</button>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var btn = document.getElementById("write");
+        var i = 0;
+        btn.onclick = function formAdd(){
+
+            var nameUser = document.getElementById("userName").value;
+            var room = document.getElementById("room").value;
+            var date = document.getElementById("date").value;
+            if (!document.getElementById("edit")) {
+                if (i < 50, ++i) {
+                    var table = document.getElementById('result').insertRow(0);
+                    table.setAttribute("id", [i]);
+                }
+
+                var y = table.insertCell(0);
+                var z = table.insertCell(1);
+                var x = table.insertCell(2);
+                y.setAttribute("class", "trUser");
+                z.setAttribute("class", "trRoom");
+                x.setAttribute("class", "trDate");
+
+                y.innerHTML = nameUser;
+                z.innerHTML = room;
+                x.innerHTML = date;
+
+                if (!document.getElementById("write")) {
+                    var write = document.getElementById('edit');
+                    write.id = "write";
+                }
+
+            }
+            else {
+
+                var nameUser = document.getElementById("userName").value;
+                var room = document.getElementById("room").value;
+                var date = document.getElementById("date").value;
+
+//              С помощью замены значений
+
+                    var tdUser = document.getElementsByClassName('highlight')[0].getElementsByClassName('trUser')[0];
+                    tdUser.innerHTML = nameUser;
+                    console.log(tdUser);
+                    var tdRoom = document.getElementsByClassName('highlight')[0].getElementsByClassName("trRoom")[0];
+                    tdRoom.innerHTML = room;
+                    console.log(tdRoom);
+                    var tdDate = document.getElementsByClassName('highlight')[0].getElementsByClassName("trDate")[0];
+                    tdDate.innerHTML = date;
+                    console.log(tdDate);
+
+
+//                Через удаление строки
+
+
+//                var nonExistentFirstElement = selectTr[0];
+//                nonExistentFirstElement.remove();
+//
+//                if (i < 50, ++i) {
+//                    var table = document.getElementById('result').insertRow(0);
+//                    table.setAttribute("id", [i]);
+//                }
+//
+//                var y = table.insertCell(0);
+//                var z = table.insertCell(1);
+//                var x = table.insertCell(2);
+//                y.setAttribute("class", "trUser");
+//                z.setAttribute("class", "trRoom");
+//                x.setAttribute("class", "trDate");
+//
+//                y.innerHTML = nameUser;
+//                z.innerHTML = room;
+//                x.innerHTML = date;
+
+
+
+
+                if (!document.getElementById("write")) {
+                    var edit = document.getElementById('edit');
+                    edit.id = "write";
+                };
+
+                var trString = document.getElementById([i]).classList.remove('highlight');
+            }
+
+            document.getElementById('form').style.display = 'none';
+            document.getElementById('table_list').style.display = 'block';
+            document.getElementById('form_block').reset();
+        }
+
+
+        function table_result() {
+            document.getElementById('table_list').style.display = 'none';
+            document.getElementById('form').style.display = 'block';
+        }
+
+        var table = document.getElementById('result');
+
+        table.onclick = function(event) {
+            var target = event.target;
+
+            while (target != table) {
+
+                if (target.tagName == 'TR') {
+                    highlight(target);
+                    return
+                }
+                if (!document.getElementById("edit")) {
+                    var edit = document.getElementById('write');
+                    edit.id = "edit";
+                }
+
+                target = target.parentNode;
+            }
+        }
+
+        function highlight(node) {
+            var selectedTr;
+            if (selectedTr) {
+                selectedTr.classList.remove('highlight');
+            }
+            selectedTr = node;
+            selectedTr.classList.add('highlight');
+
+            var tdUser = node.getElementsByClassName('trUser');
+            var tdRoom = node.getElementsByClassName("trRoom");
+            var tdDate = node.getElementsByClassName("trDate");
+
+
+
+            for (var i = 0; i < tdUser.length; i++) {
+                var tdUserText = tdUser[i].innerText;
+            }
+            for (var i = 0; i < tdRoom.length; i++) {
+                var tdRoomText = tdRoom[i].innerText;
+            }
+            for (var i = 0; i < tdDate.length; i++) {
+                var tdDateText = tdDate[i].innerText;
+            }
+
+
+            var userTd=document.getElementById("userName");
+            userTd.value = tdUserText;
+            var roomTd=document.getElementById("room");
+            roomTd.value = tdRoomText;
+            var dateTd=document.getElementById("date");
+            dateTd.value = tdDateText;
+
+
+
+
+            document.getElementById('table_list').style.display = 'none';
+            document.getElementById('form').style.display = 'block';
+        }
+
+
+
+
+        document.getElementById("btn1").onclick = table_result;
+    </script>
+
+</body>
+</html>
