@@ -41,96 +41,87 @@
         <button type="button" id="btn1">Заказать</button>
     </div>
 
-
-
     <script type="text/javascript">
+
+
         var btn = document.getElementById("write");
         var i = 0;
-        btn.onclick = function formAdd(){
 
-            var nameUser = document.getElementById("userName").value;
-            var room = document.getElementById("room").value;
-            var date = document.getElementById("date").value;
+
+        btn.onclick = function() {
+
+            var userBlock = document.getElementById("userName").value;
+            var roomBlock = document.getElementById("room").value;
+            var dateBlock = document.getElementById("date").value;
+
+            if (!document.getElementById("edit")){
+                addRow(userBlock,roomBlock,dateBlock);
+            }
+            else {
+
+                var idRowBlock = document.querySelector(".highlight").getAttribute("id");
+                editRow(userBlock,roomBlock,dateBlock,idRowBlock);
+            }
+        }
+
+
+
+        function addRow(user, room, date){
+
+            // ToDO: выделить две отдельных функции - добавление и редактирование.
+            // addRow(user, room, date)
+            // editRow(id, user, room, date) , где id = номер строки
+
+
+
             if (!document.getElementById("edit")) {
-                if (i < 50, ++i) {
+
+                // ToDo: убрать ++i
+
+                if (i < 50) {
+                    i = i+1;
                     var table = document.getElementById('result').insertRow(0);
                     table.setAttribute("id", [i]);
                 }
-
                 var y = table.insertCell(0);
                 var z = table.insertCell(1);
                 var x = table.insertCell(2);
                 y.setAttribute("class", "trUser");
                 z.setAttribute("class", "trRoom");
                 x.setAttribute("class", "trDate");
-
-                y.innerHTML = nameUser;
+                y.innerHTML = user;
                 z.innerHTML = room;
                 x.innerHTML = date;
-
                 if (!document.getElementById("write")) {
                     var write = document.getElementById('edit');
                     write.id = "write";
                 }
-
+                document.getElementById('form').style.display = 'none';
+                document.getElementById('table_list').style.display = 'block';
+                document.getElementById('form_block').reset();
             }
-            else {
-
-                var nameUser = document.getElementById("userName").value;
-                var room = document.getElementById("room").value;
-                var date = document.getElementById("date").value;
-
-//              С помощью замены значений
-
-                    var tdUser = document.getElementsByClassName('highlight')[0].getElementsByClassName('trUser')[0];
-                    tdUser.innerHTML = nameUser;
-                    console.log(tdUser);
-                    var tdRoom = document.getElementsByClassName('highlight')[0].getElementsByClassName("trRoom")[0];
-                    tdRoom.innerHTML = room;
-                    console.log(tdRoom);
-                    var tdDate = document.getElementsByClassName('highlight')[0].getElementsByClassName("trDate")[0];
-                    tdDate.innerHTML = date;
-                    console.log(tdDate);
+        }
 
 
-//                Через удаление строки
-
-
-//                var nonExistentFirstElement = selectTr[0];
-//                nonExistentFirstElement.remove();
-//
-//                if (i < 50, ++i) {
-//                    var table = document.getElementById('result').insertRow(0);
-//                    table.setAttribute("id", [i]);
-//                }
-//
-//                var y = table.insertCell(0);
-//                var z = table.insertCell(1);
-//                var x = table.insertCell(2);
-//                y.setAttribute("class", "trUser");
-//                z.setAttribute("class", "trRoom");
-//                x.setAttribute("class", "trDate");
-//
-//                y.innerHTML = nameUser;
-//                z.innerHTML = room;
-//                x.innerHTML = date;
-
-
-
-
+        function editRow(user, room , date, idRow) {
+            if (!document.getElementById("write")) {
+                var tdUser = document.getElementById(idRow).getElementsByClassName('trUser')[0];
+                tdUser.innerHTML = user;
+                var tdRoom = document.getElementById(idRow).getElementsByClassName("trRoom")[0];
+                tdRoom.innerHTML = room;
+                var tdDate = document.getElementById(idRow).getElementsByClassName("trDate")[0];
+                tdDate.innerHTML = date;
                 if (!document.getElementById("write")) {
                     var edit = document.getElementById('edit');
                     edit.id = "write";
-                };
-
-                var trString = document.getElementById([i]).classList.remove('highlight');
+                }
+                document.getElementById([i]).classList.remove('highlight');
+                document.getElementById('form').style.display = 'none';
+                document.getElementById('table_list').style.display = 'block';
+                document.getElementById('form_block').reset();
             }
 
-            document.getElementById('form').style.display = 'none';
-            document.getElementById('table_list').style.display = 'block';
-            document.getElementById('form_block').reset();
         }
-
 
         function table_result() {
             document.getElementById('table_list').style.display = 'none';
@@ -141,9 +132,7 @@
 
         table.onclick = function(event) {
             var target = event.target;
-
             while (target != table) {
-
                 if (target.tagName == 'TR') {
                     highlight(target);
                     return
@@ -152,7 +141,6 @@
                     var edit = document.getElementById('write');
                     edit.id = "edit";
                 }
-
                 target = target.parentNode;
             }
         }
@@ -164,13 +152,9 @@
             }
             selectedTr = node;
             selectedTr.classList.add('highlight');
-
             var tdUser = node.getElementsByClassName('trUser');
             var tdRoom = node.getElementsByClassName("trRoom");
             var tdDate = node.getElementsByClassName("trDate");
-
-
-
             for (var i = 0; i < tdUser.length; i++) {
                 var tdUserText = tdUser[i].innerText;
             }
@@ -180,18 +164,12 @@
             for (var i = 0; i < tdDate.length; i++) {
                 var tdDateText = tdDate[i].innerText;
             }
-
-
             var userTd=document.getElementById("userName");
             userTd.value = tdUserText;
             var roomTd=document.getElementById("room");
             roomTd.value = tdRoomText;
             var dateTd=document.getElementById("date");
             dateTd.value = tdDateText;
-
-
-
-
             document.getElementById('table_list').style.display = 'none';
             document.getElementById('form').style.display = 'block';
         }
