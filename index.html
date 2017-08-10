@@ -64,25 +64,23 @@
             $(function addRow(user, room, date) {
                 if (i < 50) {
                     i = i + 1;
-                    var table = $("#result").append('<tr>').attr("id", [i]);
+                    var table = $("#result").append('<tr>');
+                    $('tr').attr("id", [i]);
                 }
-                var y = table.append('<td>');
-                var z = table.append('<td>');
-                var x = table.append('<td>');
-                y.attr("class", "trUser");
-                z.attr("class", "trRoom");
-                x.attr("class", "trDate");
+                var y = $('tr').append('<td class="trUser">');
+                var z = $('tr').append('<td class="trRoom">');
+                var x = $('tr').append('<td class="trDate">');
                 y.innerHTML = user;
                 z.innerHTML = room;
                 x.innerHTML = date;
                 $('#form').css('display', 'none');
                 $('#table_list').css('display', 'block')
                 $('#form_block').trigger( 'reset' );
-                
+
                 }
             );
 
-            $(function editRow(user, room , date, idRow) {
+            $(function editRow(user,room,date,idRow) {
 
             })
         });
