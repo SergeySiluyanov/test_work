@@ -61,66 +61,48 @@
 
                 var idRowBlock = document.querySelector(".highlight").getAttribute("id");
                 editRow(userBlock,roomBlock,dateBlock,idRowBlock);
+
+                var write = document.getElementById('edit');
+                write.id = "write";
             }
         }
 
-
-
         function addRow(user, room, date){
-
-            // ToDO: выделить две отдельных функции - добавление и редактирование.
-            // addRow(user, room, date)
-            // editRow(id, user, room, date) , где id = номер строки
-
-
-
-            if (!document.getElementById("edit")) {
-
-                // ToDo: убрать ++i
-
-                if (i < 50) {
-                    i = i+1;
-                    var table = document.getElementById('result').insertRow(0);
-                    table.setAttribute("id", [i]);
-                }
-                var y = table.insertCell(0);
-                var z = table.insertCell(1);
-                var x = table.insertCell(2);
-                y.setAttribute("class", "trUser");
-                z.setAttribute("class", "trRoom");
-                x.setAttribute("class", "trDate");
-                y.innerHTML = user;
-                z.innerHTML = room;
-                x.innerHTML = date;
-                if (!document.getElementById("write")) {
-                    var write = document.getElementById('edit');
-                    write.id = "write";
-                }
-                document.getElementById('form').style.display = 'none';
-                document.getElementById('table_list').style.display = 'block';
-                document.getElementById('form_block').reset();
+            if (i < 50) {
+                i = i+1;
+                var table = document.getElementById('result').insertRow(0);
+                table.setAttribute("id", [i]);
             }
+            var y = table.insertCell(0);
+            var z = table.insertCell(1);
+            var x = table.insertCell(2);
+            y.setAttribute("class", "trUser");
+            z.setAttribute("class", "trRoom");
+            x.setAttribute("class", "trDate");
+            y.innerHTML = user;
+            z.innerHTML = room;
+            x.innerHTML = date;
+            document.getElementById('form').style.display = 'none';
+            document.getElementById('table_list').style.display = 'block';
+            document.getElementById('form_block').reset();
         }
 
 
         function editRow(user, room , date, idRow) {
-            if (!document.getElementById("write")) {
-                var tdUser = document.getElementById(idRow).getElementsByClassName('trUser')[0];
-                tdUser.innerHTML = user;
-                var tdRoom = document.getElementById(idRow).getElementsByClassName("trRoom")[0];
-                tdRoom.innerHTML = room;
-                var tdDate = document.getElementById(idRow).getElementsByClassName("trDate")[0];
-                tdDate.innerHTML = date;
-                if (!document.getElementById("write")) {
-                    var edit = document.getElementById('edit');
-                    edit.id = "write";
-                }
-                document.getElementById([i]).classList.remove('highlight');
-                document.getElementById('form').style.display = 'none';
-                document.getElementById('table_list').style.display = 'block';
-                document.getElementById('form_block').reset();
-            }
 
+            var rowId = document.getElementById(idRow);
+            var tdUser = rowId.getElementsByClassName('trUser')[0];
+            tdUser.innerHTML = user;
+            var tdRoom = rowId.getElementsByClassName("trRoom")[0];
+            tdRoom.innerHTML = room;
+            var tdDate = rowId.getElementsByClassName("trDate")[0];
+            tdDate.innerHTML = date;
+
+            rowId.classList.remove('highlight');
+
+            document.getElementById('form').style.display = 'none';
+            document.getElementById('table_list').style.display = 'block';
+            document.getElementById('form_block').reset();
         }
 
         function table_result() {
@@ -132,51 +114,39 @@
 
         table.onclick = function(event) {
             var target = event.target;
-            while (target != table) {
-                if (target.tagName == 'TR') {
-                    highlight(target);
-                    return
-                }
-                if (!document.getElementById("edit")) {
-                    var edit = document.getElementById('write');
-                    edit.id = "edit";
-                }
+
+            while (target.tagName != 'TR') {
                 target = target.parentNode;
             }
+            highlight(target);
+            if (!document.getElementById("edit")) {
+                var edit = document.getElementById('write');
+                edit.id = "edit";
+            }
+
         }
 
         function highlight(node) {
-            var selectedTr;
-            if (selectedTr) {
-                selectedTr.classList.remove('highlight');
-            }
-            selectedTr = node;
-            selectedTr.classList.add('highlight');
+
+            node.classList.add('highlight');
             var tdUser = node.getElementsByClassName('trUser');
             var tdRoom = node.getElementsByClassName("trRoom");
             var tdDate = node.getElementsByClassName("trDate");
-            for (var i = 0; i < tdUser.length; i++) {
-                var tdUserText = tdUser[i].innerText;
-            }
-            for (var i = 0; i < tdRoom.length; i++) {
-                var tdRoomText = tdRoom[i].innerText;
-            }
-            for (var i = 0; i < tdDate.length; i++) {
-                var tdDateText = tdDate[i].innerText;
-            }
+
+            var tdUserText = tdUser[0].innerText;
+            var tdRoomText = tdRoom[0].innerText;
+            var tdDateText = tdDate[0].innerText;
+
             var userTd=document.getElementById("userName");
             userTd.value = tdUserText;
             var roomTd=document.getElementById("room");
             roomTd.value = tdRoomText;
             var dateTd=document.getElementById("date");
             dateTd.value = tdDateText;
+
             document.getElementById('table_list').style.display = 'none';
             document.getElementById('form').style.display = 'block';
         }
-
-
-
-
         document.getElementById("btn1").onclick = table_result;
     </script>
 
